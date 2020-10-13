@@ -54,7 +54,7 @@ class BankSlipIntegrationsImpl implements BankSlipIntegrations
             'vl_juros'          => $data['info']['interest'],
             'vl_multa'          => $data['info']['daily_value'],
             'ds_info'           => $data['info']['aditional_info'],
-            'ds_instrucao'      => $data['info']['isntructions']
+            'ds_instrucao'      => $data['info']['instructions']
         ]);
 
         $ch = curl_init();
