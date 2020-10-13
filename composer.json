@@ -1,0 +1,28 @@
+{
+    "name": "wr2net/fastconnect-sdk-php",
+    "description": "Biblioteca de integração com o Fpay Fastconnect",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wagner",
+            "email": "wagner@rigolisarosa.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "php": "^7.3",
+        "phpunit/phpunit": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "FastPay\\": [
+                "src",
+                "tests"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
