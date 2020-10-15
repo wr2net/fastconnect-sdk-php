@@ -1,133 +1,99 @@
 <?php
 
-namespace FastPay\Integrations\Integrations;
+namespace FastPay\Integrations\BankSlip;
+
+use FastPay\Util\CurlExec;
 
 /**
  * Class BankSlipIntegrationsImpl
- * @package FastPay\Integrations\Integrations
+ * @package FastPay\Sandbox\BankSlip
  */
 class BankSlipIntegrationsImpl implements BankSlipIntegrations
 {
+
+    /**
+     * @var array
+     */
+    private $credentials;
+
     /**
      * @var string
      */
-    private $endpoint = "https://api.fpay.me/boleto";
+    private $endpoint;
 
     /**
-     * @param $data
-     * @return string[]
+     * BankSlipIntegrationsImpl constructor.
+     * @param string $endpoint
+     * @param array $credentials
      */
-    private static function constructHeader($code, $key)
+    public function __construct(string $endpoint, array $credentials)
     {
-        return [
-            'Content-Type: application/json',
-            'Client-Code: ' . $code,
-            'Client-key: ' . $key
-        ];
+        $this->endpoint = $endpoint;
+        $this->credentials = $credentials;
     }
 
     /**
-     * @param array $data
-     * @return mixed
+     * @param $data
+     * @return bool|mixed|string
      */
     public function generateBankSlip($data)
     {
         $json = json_encode([
-            'url_retorno'       => $data['info']['return'],
-            'nu_referencia'     => $data['info']['reference'],
-            'nm_cliente'        => $data['info']['client'],
-            'nu_documento'      => $data['info']['document'],
-            'ds_email'          => $data['info']['email'],
-            'nu_telefone'       => $data['info']['telephone'],
-            'vl_total'          => $data['info']['value'],
-            'dt_vencimento'     => $data['info']['due_date'],
-            'nu_parcelas'       => $data['info']['plots'],
-            'tipo_venda'        => $data['info']['sale'],
-            'dia_cobranca'      => $data['info']['charge_date'],
-            'ds_cep'            => $data['info']['zip_code'],
-            'ds_endereco'       => $data['info']['address'],
-            'ds_bairro'         => $data['info']['neighborhood'],
-            'ds_complemento'    => $data['info']['complement'],
-            'ds_numero'         => $data['info']['number'],
-            'nm_cidade'         => $data['info']['city'],
-            'nm_estado'         => $data['info']['state'],
-            'vl_juros'          => $data['info']['interest'],
-            'vl_multa'          => $data['info']['daily_value'],
-            'ds_info'           => $data['info']['aditional_info'],
-            'ds_instrucao'      => $data['info']['isntructions']
+            'url_retorno'       => $data['return'],
+            'nu_referencia'     => $data['reference'],
+            'nm_cliente'        => $data['client'],
+            'nu_documento'      => $data['document'],
+            'ds_email'          => $data['email'],
+            'nu_telefone'       => $data['telephone'],
+            'vl_total'          => $data['value'],
+            'dt_vencimento'     => $data['due_date'],
+            'nu_parcelas'       => $data['plots'],
+            'tipo_venda'        => $data['sale'],
+            'dia_cobranca'      => $data['charge_date'],
+            'ds_cep'            => $data['zip_code'],
+            'ds_endereco'       => $data['address'],
+            'ds_bairro'         => $data['neighborhood'],
+            'ds_complemento'    => $data['complement'],
+            'ds_numero'         => $data['number'],
+            'nm_cidade'         => $data['city'],
+            'nm_estado'         => $data['state'],
+            'vl_juros'          => $data['interest'],
+            'vl_multa'          => $data['daily_value'],
+            'ds_info'           => $data['aditional_info'],
+            'ds_instrucao'      => $data['instructions']
         ]);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->constructHeader($data['credentials']['CLIENT_CODE'], $data['credentials']['CLIENT_KEY']));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-
-        $response = json_decode(curl_exec($ch));
-        curl_close($ch);
-
-        return $response;
+        return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
 
     /**
      * @param $data
-     * @return mixed
+     * @return bool|mixed|string
      */
     public function alterDateBankSlip($data)
     {
         $json = json_encode([
-            'dt_vencimento'     => $data['info']['due_date']
+            'dt_vencimento'     => $data['due_date']
         ]);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->endpoint . "/" . $data['info']['fid']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->constructHeader($data['credentials']['CLIENT_CODE'], $data['credentials']['CLIENT_KEY']));
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-
-        $response = json_decode(curl_exec($ch));
-        curl_close($ch);
-
-        return $response;
+        return CurlExec::curlExec("PUT", $this->endpoint, $this->credentials, $json);
     }
 
     /**
      * @param $data
-     * @return mixed
+     * @return bool|mixed|string
      */
     public function findBankSlip($data)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->endpoint . "/" . $data['info']['fid']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->constructHeader($data['credentials']['CLIENT_CODE'], $data['credentials']['CLIENT_KEY']));
-
-        $response = json_decode(curl_exec($ch));
-        curl_close($ch);
-
-        return $response;
+        return CurlExec::curlExec("GET", $this->endpoint, $this->credentials, $data['fid']);
     }
 
     /**
      * @param $data
-     * @return mixed
+     * @return bool|mixed|string
      */
     public function delBankSlip($data)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->endpoint . "/" . $data['info']['fid']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->constructHeader($data['credentials']['CLIENT_CODE'], $data['credentials']['CLIENT_KEY']));
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-
-        $response = json_decode(curl_exec($ch));
-        curl_close($ch);
-
-        return $response;
+        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials, $data['fid']);
     }
 }
