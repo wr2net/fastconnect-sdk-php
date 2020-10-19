@@ -24,11 +24,11 @@ interface BankSlipIntegrations
      * @param $data
      * @return mixed
      */
-    public function findBankSlip($data);
+    public function findBankSlip();
 
     /**
      * @param $data
      * @return mixed
      */
-    public function delBankSlip($data);
+    public function delBankSlip();
 }
