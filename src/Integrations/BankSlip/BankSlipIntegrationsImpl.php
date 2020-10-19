@@ -80,20 +80,18 @@ class BankSlipIntegrationsImpl implements BankSlipIntegrations
     }
 
     /**
-     * @param $data
      * @return bool|mixed|string
      */
-    public function findBankSlip($data)
+    public function findBankSlip()
     {
-        return CurlExec::curlExec("GET", $this->endpoint, $this->credentials, $data['fid']);
+        return CurlExec::curlExec("GET", $this->endpoint, $this->credentials);
     }
 
     /**
-     * @param $data
      * @return bool|mixed|string
      */
-    public function delBankSlip($data)
+    public function delBankSlip()
     {
-        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials, $data['fid']);
+        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials);
     }
 }

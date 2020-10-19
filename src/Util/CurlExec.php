@@ -15,7 +15,7 @@ class CurlExec
      * @param $json
      * @return bool|string
      */
-    public function curlExec($type, $endpoint, $credentials, $json)
+    public function curlExec(string $type, string $endpoint, array $credentials, $json = null)
     {
         $header = [
             'Content-Type: application/json',

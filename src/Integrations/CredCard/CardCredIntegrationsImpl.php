@@ -90,4 +90,36 @@ class CardCredIntegrationsImpl implements CardCredIntegrations
 
         return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function captureTransaction()
+    {
+        return CurlExec::curlExec("PUT", $this->endpoint, $this->credentials);
+    }
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function findTransaction()
+    {
+        return CurlExec::curlExec("GET", $this->endpoint, $this->credentials);
+    }
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function delTransaction()
+    {
+        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials);
+    }
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function reversalTransaction()
+    {
+        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials);
+    }
 }
