@@ -13,4 +13,10 @@ interface CardCredIntegrations
      * @return mixed
      */
     public function fullTransaction($data);
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function tokenTransaction($data);
 }

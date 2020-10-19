@@ -65,4 +65,29 @@ class CardCredIntegrationsImpl implements CardCredIntegrations
 
         return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
+
+    /**
+     * @param $data
+     * @return bool|string
+     */
+    public function tokenTransaction($data)
+    {
+        $json = json_encode([
+            'url_retorno'       => $data['return'],
+            'nu_referencia'     => $data['reference'],
+            'nm_cliente'        => $data['client'],
+            'nu_documento'      => $data['document'],
+            'ds_email'          => $data['email'],
+            'nu_telefone'       => $data['telephone'],
+            'vl_total'          => $data['value'],
+            'dt_vencimento'     => $data['due_date'],
+            'dt_cobranca'       => $data['charge_date'],
+            'nu_parcelas'       => $data['plots'],
+            'tipo_venda'        => $data['sale'],
+            'ds_softdescriptor' => $data['soft_descriptor'],
+            'ds_cartao_token'   => $data['token_card']
+        ]);
+
+        return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
+    }
 }
