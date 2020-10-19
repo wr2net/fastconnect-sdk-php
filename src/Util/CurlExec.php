@@ -17,11 +17,17 @@ class CurlExec
      */
     public function curlExec($type, $endpoint, $credentials, $json)
     {
+        $header = [
+            'Content-Type: application/json',
+            'Client-Code: ' . $credentials['CLIENT_CODE'],
+            'Client-key: ' . $credentials['CLIENT_KEY']
+        ];
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->constructHeader($credentials));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         if ($type == "POST" || $type == "PUT") {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
@@ -30,18 +36,5 @@ class CurlExec
         curl_close($ch);
 
         return $response;
-    }
-
-    /**
-     * @param $data
-     * @return string[]
-     */
-    private static function constructHeader($data)
-    {
-        return [
-            'Content-Type: application/json',
-            'Client-Code: ' . $data['CLIENT_CODE'],
-            'Client-key: ' . $data['CLIENT_KEY']
-        ];
     }
 }
