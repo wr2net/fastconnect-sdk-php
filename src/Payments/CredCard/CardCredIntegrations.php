@@ -37,7 +37,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
      */
     public function fullTransaction($data)
     {
-        $json = json_encode([
+        $parse = [
             'url_retorno'       => $data['return'],
             'nu_referencia'     => $data['reference'],
             'nm_cliente'        => $data['client'],
@@ -61,8 +61,8 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
             'nm_titular'        => $data['client_name'],
             'dt_validade'       => $data['validate'],
             'tp_capturar'       => $data['capture']
-        ]);
-
+        ];
+        $json = json_encode($parse);
         return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
 

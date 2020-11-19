@@ -2,6 +2,8 @@
 
 namespace FastPay\Payments\BankSlip;
 
+use FastPay\Payments\Integration\CurlExec;
+
 /**
  * Class BankSlipIntegrationsImpl
  * @package FastPay\Sandbox\BankSlip
@@ -36,31 +38,31 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
      */
     public function generateBankSlip($data)
     {
-        $json = json_encode([
-            'url_retorno'       => $data['return'],
-            'nu_referencia'     => $data['reference'],
-            'nm_cliente'        => $data['client'],
-            'nu_documento'      => $data['document'],
-            'ds_email'          => $data['email'],
-            'nu_telefone'       => $data['telephone'],
-            'vl_total'          => $data['value'],
-            'dt_vencimento'     => $data['due_date'],
-            'nu_parcelas'       => $data['plots'],
-            'tipo_venda'        => $data['sale'],
-            'dia_cobranca'      => $data['charge_date'],
-            'ds_cep'            => $data['zip_code'],
-            'ds_endereco'       => $data['address'],
-            'ds_bairro'         => $data['neighborhood'],
-            'ds_complemento'    => $data['complement'],
-            'ds_numero'         => $data['number'],
-            'nm_cidade'         => $data['city'],
-            'nm_estado'         => $data['state'],
-            'vl_juros'          => $data['interest'],
-            'vl_multa'          => $data['daily_value'],
-            'ds_info'           => $data['aditional_info'],
-            'ds_instrucao'      => $data['instructions']
-        ]);
-
+        $parse = [
+            'url_retorno' => $data['return'],
+            'nu_referencia' => $data['reference'],
+            'nm_cliente' => $data['client'],
+            'nu_documento' => $data['document'],
+            'ds_email' => $data['email'],
+            'nu_telefone' => $data['telephone'],
+            'vl_total' => $data['value'],
+            'dt_vencimento' => $data['due_date'],
+            'nu_parcelas' => $data['plots'],
+            'tipo_venda' => $data['sale'],
+            'dia_cobranca' => $data['charge_date'],
+            'ds_cep' => $data['zip_code'],
+            'ds_endereco' => $data['address'],
+            'ds_bairro' => $data['neighborhood'],
+            'ds_complemento' => $data['complement'],
+            'ds_numero' => $data['number'],
+            'nm_cidade' => $data['city'],
+            'nm_estado' => $data['state'],
+            'vl_juros' => $data['interest'],
+            'vl_multa' => $data['daily_value'],
+            'ds_info' => $data['aditional_info'],
+            'ds_instrucao' => $data['instructions']
+        ];
+        $json = json_encode($parse);
         return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
 
