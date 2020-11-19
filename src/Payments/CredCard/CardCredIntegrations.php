@@ -1,14 +1,14 @@
 <?php
 
-namespace FastPay\Integrations\CredCard;
+namespace FastPay\Payments\CredCard;
 
-use FastPay\Util\CurlExec;
+use FastPay\Payments\Integration\CurlExec;
 
 /**
  * Class CardCredIntegrationsImpl
  * @package FastPay\Integrations\CredCard
  */
-class CardCredIntegrationsImpl implements CardCredIntegrations
+class CardCredIntegrations implements CardCredIntegrationsInterface
 {
     /**
      * @var array

@@ -1,12 +1,12 @@
 <?php
 
-namespace FastPay\Integrations\CredCard;
+namespace FastPay\Payments\CredCard;
 
 /**
  * Interface CardCredIntegrations
  * @package FastPay\Integrations\CredCard
  */
-interface CardCredIntegrations
+interface CardCredIntegrationsInterface
 {
     /**
      * @param $data
