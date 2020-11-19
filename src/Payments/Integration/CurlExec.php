@@ -2,8 +2,6 @@
 
 namespace FastPay\Payments\Integration;
 
-use GuzzleHttp\Client;
-
 /**
  * Class CurlExec
  * @package FastPay\Util
