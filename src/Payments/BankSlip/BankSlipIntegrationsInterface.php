@@ -1,12 +1,12 @@
 <?php
 
-namespace FastPay\Integrations\BankSlip;
+namespace FastPay\Payments\BankSlip;
 
 /**
  * Interface BankSlipIntegrations
  * @package FastPay\Integrations\Integrations
  */
-interface BankSlipIntegrations
+interface BankSlipIntegrationsInterface
 {
     /**
      * @param $data

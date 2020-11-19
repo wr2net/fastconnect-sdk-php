@@ -1,14 +1,12 @@
 <?php
 
-namespace FastPay\Integrations\BankSlip;
-
-use FastPay\Util\CurlExec;
+namespace FastPay\Payments\BankSlip;
 
 /**
  * Class BankSlipIntegrationsImpl
  * @package FastPay\Sandbox\BankSlip
  */
-class BankSlipIntegrationsImpl implements BankSlipIntegrations
+class BankSlipIntegrations implements BankSlipIntegrationsInterface
 {
 
     /**

@@ -1,6 +1,8 @@
 <?php
 
-namespace FastPay\Util;
+namespace FastPay\Payments\Integration;
+
+use GuzzleHttp\Client;
 
 /**
  * Class CurlExec
