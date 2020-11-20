@@ -21,6 +21,11 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
     private $endpoint;
 
     /**
+     * @var CurlExec
+     */
+    private $connection;
+
+    /**
      * BankSlipIntegrationsImpl constructor.
      * @param string $endpoint
      * @param array $credentials
@@ -29,6 +34,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
     {
         $this->endpoint = $endpoint;
         $this->credentials = $credentials;
+        $this->connection = new CurlExec;
     }
 
     /**
@@ -63,7 +69,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
             'tp_capturar'       => $data['capture']
         ];
         $json = json_encode($parse);
-        return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
+        return $this->connection->curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
 
     /**
@@ -88,7 +94,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
             'ds_cartao_token'   => $data['token_card']
         ]);
 
-        return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
+        return $this->connection->curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
 
     /**
@@ -96,7 +102,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
      */
     public function captureTransaction()
     {
-        return CurlExec::curlExec("PUT", $this->endpoint, $this->credentials);
+        return $this->connection->curlExec("PUT", $this->endpoint, $this->credentials);
     }
 
     /**
@@ -104,7 +110,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
      */
     public function findTransaction()
     {
-        return CurlExec::curlExec("GET", $this->endpoint, $this->credentials);
+        return $this->connection->curlExec("GET", $this->endpoint, $this->credentials);
     }
 
     /**
@@ -112,7 +118,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
      */
     public function delTransaction()
     {
-        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials);
+        return $this->connection->curlExec("DELETE", $this->endpoint, $this->credentials);
     }
 
     /**
@@ -120,6 +126,6 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
      */
     public function reversalTransaction()
     {
-        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials);
+        return $this->connection->curlExec("DELETE", $this->endpoint, $this->credentials);
     }
 }
