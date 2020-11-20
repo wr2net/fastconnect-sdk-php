@@ -22,7 +22,12 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
     private $endpoint;
 
     /**
-     * BankSlipIntegrationsImpl constructor.
+     * @var CurlExec
+     */
+    private $connection;
+
+    /**
+     * BankSlipIntegrations constructor.
      * @param string $endpoint
      * @param array $credentials
      */
@@ -30,6 +35,7 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
     {
         $this->endpoint = $endpoint;
         $this->credentials = $credentials;
+        $this->connection = new CurlExec;
     }
 
     /**
@@ -63,7 +69,7 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
             'ds_instrucao' => $data['instructions']
         ];
         $json = json_encode($parse);
-        return CurlExec::curlExec("POST", $this->endpoint, $this->credentials, $json);
+        return $this->connection->curlExec("POST", $this->endpoint, $this->credentials, $json);
     }
 
     /**
@@ -76,7 +82,7 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
             'dt_vencimento'     => $data['due_date']
         ]);
 
-        return CurlExec::curlExec("PUT", $this->endpoint, $this->credentials, $json);
+        return $this->connection->curlExec("PUT", $this->endpoint, $this->credentials, $json);
     }
 
     /**
@@ -84,7 +90,7 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
      */
     public function findBankSlip()
     {
-        return CurlExec::curlExec("GET", $this->endpoint, $this->credentials);
+        return $this->connection->curlExec("GET", $this->endpoint, $this->credentials);
     }
 
     /**
@@ -92,6 +98,6 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
      */
     public function delBankSlip()
     {
-        return CurlExec::curlExec("DELETE", $this->endpoint, $this->credentials);
+        return $this->connection->curlExec("DELETE", $this->endpoint, $this->credentials);
     }
 }
