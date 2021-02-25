@@ -33,7 +33,7 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
      */
     public function __construct(string $endpoint, array $credentials)
     {
-        $this->endpoint = $endpoint;
+        $this->endpoint = $endpoint . '/boleto';
         $this->credentials = $credentials;
         $this->connection = new CurlExec;
     }
@@ -73,11 +73,13 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
     }
 
     /**
-     * @param $data
+     * @param  string  $fid
+     * @param  array  $data
      * @return bool|mixed|string
      */
-    public function alterDateBankSlip($data)
+    public function alterDateBankSlip(string $fid, array $data)
     {
+        $this->endpoint .= '/' . $fid;
         $json = json_encode([
             'dt_vencimento'     => $data['due_date']
         ]);
@@ -86,18 +88,22 @@ class BankSlipIntegrations implements BankSlipIntegrationsInterface
     }
 
     /**
+     * @param  string  $fid
      * @return bool|mixed|string
      */
-    public function findBankSlip()
+    public function findBankSlip(string $fid)
     {
+        $this->endpoint .= '/' . $fid;
         return $this->connection->curlExec("GET", $this->endpoint, $this->credentials);
     }
 
     /**
+     * @param  string  $fid
      * @return bool|mixed|string
      */
-    public function delBankSlip()
+    public function delBankSlip(string $fid)
     {
+        $this->endpoint .= '/' . $fid;
         return $this->connection->curlExec("DELETE", $this->endpoint, $this->credentials);
     }
 }

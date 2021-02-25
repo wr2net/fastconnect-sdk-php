@@ -12,23 +12,24 @@ interface BankSlipIntegrationsInterface
      * @param $data
      * @return mixed
      */
-    public function generateBankSlip($data);
+    public function generateBankSlip(array $data);
 
     /**
-     * @param $data
+     * @param  string  $fid
+     * @param  array  $data
      * @return mixed
      */
-    public function alterDateBankSlip($data);
+    public function alterDateBankSlip(string $fid, array $data);
 
     /**
-     * @param $data
+     * @param  string  $fid
      * @return mixed
      */
-    public function findBankSlip();
+    public function findBankSlip(string $fid);
 
     /**
-     * @param $data
+     * @param  string  $fid
      * @return mixed
      */
-    public function delBankSlip();
+    public function delBankSlip(string $fid);
 }
