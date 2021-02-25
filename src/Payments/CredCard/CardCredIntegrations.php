@@ -32,7 +32,7 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
      */
     public function __construct(string $endpoint, array $credentials)
     {
-        $this->endpoint = $endpoint;
+        $this->endpoint = $endpoint . '/credito';
         $this->credentials = $credentials;
         $this->connection = new CurlExec;
     }
@@ -98,34 +98,42 @@ class CardCredIntegrations implements CardCredIntegrationsInterface
     }
 
     /**
+     * @param  string  $fid
      * @return bool|mixed|string
      */
-    public function captureTransaction()
+    public function captureTransaction(string $fid)
     {
+        $this->endpoint .= '/' . $fid . '/capturar';
         return $this->connection->curlExec("PUT", $this->endpoint, $this->credentials);
     }
 
     /**
+     * @param  string  $fid
      * @return bool|mixed|string
      */
-    public function findTransaction()
+    public function findTransaction(string $fid)
     {
+        $this->endpoint .= '/' . $fid;
         return $this->connection->curlExec("GET", $this->endpoint, $this->credentials);
     }
 
     /**
+     * @param  string  $fid
      * @return bool|mixed|string
      */
-    public function delTransaction()
+    public function delTransaction(string $fid)
     {
+        $this->endpoint .= '/' . $fid;
         return $this->connection->curlExec("DELETE", $this->endpoint, $this->credentials);
     }
 
     /**
+     * @param  string  $fid
      * @return bool|mixed|string
      */
-    public function reversalTransaction()
+    public function reversalTransaction(string $fid)
     {
+        $this->endpoint .= '/' . $fid . '/estornar';
         return $this->connection->curlExec("DELETE", $this->endpoint, $this->credentials);
     }
 }
