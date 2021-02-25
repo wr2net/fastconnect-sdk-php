@@ -21,22 +21,26 @@ interface CardCredIntegrationsInterface
     public function tokenTransaction($data);
 
     /**
+     * @param  string  $fid
      * @return mixed
      */
-    public function captureTransaction();
+    public function captureTransaction(string $fid);
 
     /**
+     * @param  string  $fid
      * @return mixed
      */
-    public function findTransaction();
+    public function findTransaction(string $fid);
 
     /**
+     * @param  string  $fid
      * @return mixed
      */
-    public function delTransaction();
+    public function delTransaction(string $fid);
 
     /**
+     * @param  string  $fid
      * @return mixed
      */
-    public function reversalTransaction();
+    public function reversalTransaction(string $fid);
 }
